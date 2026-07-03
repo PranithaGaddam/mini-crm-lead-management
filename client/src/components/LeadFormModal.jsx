@@ -35,7 +35,8 @@ export default function LeadFormModal({ isOpen, onClose, onSubmit, editData, loa
   if (!isOpen) return null;
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const value = e.target.name === "email" ? e.target.value.trim() : e.target.value;
+    setForm({ ...form, [e.target.name]: value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
@@ -43,7 +44,7 @@ export default function LeadFormModal({ isOpen, onClose, onSubmit, editData, loa
     const newErrors = {};
     if (!form.name.trim()) newErrors.name = "Name is required";
     if (!form.email.trim()) newErrors.email = "Email is required";
-    else if (!/^\S+@\S+\.\S+$/.test(form.email)) newErrors.email = "Invalid email";
+    else if (!/^\S+@\S+\.\S+$/.test(form.email.trim())) newErrors.email = "Invalid email";
     if (!form.phone.trim()) newErrors.phone = "Phone is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
